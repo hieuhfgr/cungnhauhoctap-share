@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Bài Viết{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% block css-js %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+<style>
+    .content-img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+    {% if post.is_publish == False %}
+    <h3>Bài viết của bạn không được duyệt!</h3>
+    {% else %}
+        {% if own_post == True %}
+            <a href="/hoctap/posts/{{post.post_id}}/change">Chỉnh sửa bài viết</a>
+        {% endif %}
+        
+
+        <h3>Bài Viết: {{post.title|capfirst}}</h3>
+        <h5>Bởi: <a href="/profile/detail/{{post.author}}">{{post.author}}</a> - {{post.createdAt|date:"d/m/Y"}}</h5>
+        <hr>
+        {{post.content|safe}}
+        <hr>
+
+        <div class="mt-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if last_voted == 'none' %} 
+                        <button type="submit" name="vote" value="like" class="btn btn-light mr-2">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                        {{interactiveUsersCount}}
+                        <button type="submit" name="vote" value="dislike" class="btn btn-light ml-2">
+                            <i class="fas fa-thumbs-down"></i>
+                        </button>
+                    {% endif %}
+                    {% if last_voted == 'like' %} 
+                        <button type="submit" name="vote" value="like" class="btn btn-light mr-2">
+                            <i style="color:#4d40ff" class="fas fa-thumbs-up"></i>
+                        </button>
+                        {{interactiveUsersCount}}
+                        <button type="submit" name="vote" value="dislike" class="btn btn-light ml-2">
+                            <i class="fas fa-thumbs-down"></i>
+                        </button>
+                    {% endif %}
+                    {% if last_voted == 'dislike' %} 
+                        <button type="submit" name="vote" value="like" class="btn btn-light mr-2">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                        {{interactiveUsersCount}}
+                        <button type="submit" name="vote" value="dislike" class="btn btn-light ml-2">
+                            <i style="color:#ff4040" class="fas fa-thumbs-down"></i>
+                        </button>
+                    {% endif %}
+                </form>
+        </div>
+        <h6>Giải đáp thắc mắc:</h6>
+        <div class="mt-2">
+            {% if isLargeQnA == False %} 
+            <ul>
+                {% for hoidap in hoidaps %} 
+                <li>
+                    <h6>{{hoidap.question}}</h6>
+                    <ul>
+                        <li>{{hoidap.answer}}</li>
+                    </ul>
+                </li>
+                {% empty %}
+                <i><h6>Chưa có hỏi đáp.</h6></i>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <a href="hoidap">Xem hỏi đáp</a> <br>
+            {% endif %}
+
+            {% if own_post == False %}
+            <a href="hoidap/all-questions-questioner">Xem hỏi đáp mà bạn đã gửi...</a> <br>
+            <a href="hoidap/send-question">Gửi hỏi đáp...</a>
+            {% else %}
+            <a href="hoidap/all-questions-author">Xem hỏi đáp cần giải quyết...</a> 
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

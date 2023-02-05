@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Chỉnh Sửa Kiểm Tra{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="mb-3">
+        <h4 class="mb-3">Chỉnh sửa Kiểm Tra</h4>
+        <div class="ml-3">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-success">Lưu</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        <h4>Xóa bài viết</h4>
+        <div class="ml-3">
+            <p>Hoạt động này không thể hoàn tác!</p>
+            <a href="/hoctap/posts/{{post.post_id}}/delete">Xóa bài viết</a>
+        </div>
+    </div>
+{% endblock %}

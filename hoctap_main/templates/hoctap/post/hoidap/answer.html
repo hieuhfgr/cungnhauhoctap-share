@@ -1,0 +1,26 @@
+{% extends "base1.html" %}
+
+{% block title %}Viết Bài - Hỏi Đáp{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3>Bài Viết: {{post.title|capfirst}}</h3>
+    <h5>Bởi: <a href="/profile/detail/{{post.author}}">{{post.author}}</a> - {{post.createdAt|date:"d/m/Y"}}</h5>
+
+    <div class="ml-4 mt-3">
+        {% if isSent == False %}
+            <h4>Câu hỏi: {{hoidap.question}}</h4>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form|crispy}}
+                <button type="submit" class="btn btn-success">Gửi trả lời</button>
+            </form>
+        {% else %}
+            <h5>Câu trả lời của Bạn đã được gửi!</h5>
+            <a href="/hoctap/posts/{{post.post_id}}">Quay lại bài viết</a> <br>
+            <a href="/hoctap/posts/{{post.post_id}}/hoidap/all-questions-author">Xem các câu hỏi chưa được trả lời...</a>
+        {% endif %}
+    </div>
+{% endblock %}

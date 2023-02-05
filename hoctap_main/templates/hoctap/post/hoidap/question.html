@@ -1,0 +1,22 @@
+{% extends "base1.html" %}
+
+{% block title %}Viết Bài - Hỏi Đáp{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3>Bài Viết: {{post.title|capfirst}}</h3>
+    <h5>Bởi: <a href="/profile/detail/{{post.author}}">{{post.author}}</a> - {{post.createdAt|date:"d/m/Y"}}</h5>
+    <div class="ml-4">
+        {% if isSent == False %}
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit" class="btn btn-success">Gửi hỏi đáp</button>
+        </form>
+        {% else %}
+            <h5>Thắc mắc của bạn đã được gửi!</h5> 
+        {% endif %}
+    </div>
+{% endblock %}

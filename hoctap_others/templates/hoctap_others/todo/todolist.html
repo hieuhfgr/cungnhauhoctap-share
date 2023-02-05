@@ -1,0 +1,39 @@
+{% extends "base1.html" %}
+
+{% block title %}Nội Dung Học Tập{% endblock %}
+{% block nav-hoctap-other-drop %}active{% endblock %}
+{% block nav-hoctap-todo %}active{% endblock %}
+
+{% block content %}
+    <h3>Nội Dung Học Tập</h3>
+    <a href="create">Tạo nội dung học tập</a>
+    <table class="table table-sm table-bordered table-hover">
+        <thead>
+            <tr>
+                <td style="width: 70%">Tiêu Đề</td>
+                <td style="width: 30%"></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for list in todo %}
+                <tr>
+                    {% if list.is_finished == False %} 
+                    <td><a href="detail/{{list.id}}">{{list.title}}</a></td>
+                        <td class="text-center">
+                            <form method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-success" type="submit" name="taskFinish" value="{{list.id}}">
+                                    Xác nhận hoàn thành
+                                </button>
+                            </form>
+                        </td>
+                    {% else %}
+                        <td><del><a href="detail/{{list.id}}">{{list.title}}</a></del></td>
+                        <td class="text-center">(đã hoàn thành)</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock %}

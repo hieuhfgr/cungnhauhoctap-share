@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Bài Viết{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+{% block nav-hoctap-post %}active{% endblock %}
+
+{% block content %}
+    <h3>Bài viết đã được đăng</h3>
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <td style="width: 65%">Bài Viết</td>
+                <td style="width: 20%">Bởi</td>
+                <td class="text-center" style="width: 15%">Ngày Đăng</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %} 
+            <tr>
+                <td><a href="/hoctap/posts/{{post.post_id}}">{{post.title|capfirst}}</a></td>
+                <td><a href="/profile/detail/{{post.author}}">{{post.author}}</a></td>
+                <td class="text-center">{{post.createdAt|date:"d/m/Y"}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        <h6>
+            {% if posts.has_previous %} 
+            <a href="?page={{posts.previous_page_number }}">Trang Trước</a>
+            {% endif %}
+            {% if posts.has_previous and posts.has_next %} 
+                - 
+            {% endif %}
+            {% if posts.has_next %} 
+                <a href="?page={{posts.next_page_number}}">Trang Tiếp Theo</a>
+            {% endif %}
+        </h6>
+    </div>
+{% endblock %}

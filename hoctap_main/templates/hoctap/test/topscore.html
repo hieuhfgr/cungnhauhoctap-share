@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Bài Kiểm Tra - Xếp Hạng{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% block css-js %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+<style>
+    .content-img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+    <h3>Bài Viết: <a href="/hoctap/tests/{{test.test_id}}">{{test.title|capfirst}}</a></h3>
+    <h5>Bởi: <a href="/profile/detail/{{test.author}}">{{test.author}}</a> - {{test.createdAt|date:"d/m/Y"}}</h5>
+    <hr>
+    <h4>Xếp Hạng Điểm Số</h4>
+    <table class="table table-sm table-bordered table-hover table-format">
+        <thead>
+            <tr>
+                <td class="text-center" style="width: 10%">#</td>
+                <td style="width: 65%">Top xếp hạng	</td>
+                <td class="text-center" style="width: 25%">Điểm số</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in topScore %}
+                    <tr>
+                        <td class="text-center">{{ member.2 }}</td>
+                        <td><a href="/profile/detail/{{member.0}}" target="_blank">{{member.0}}</a></td>
+                        <td>{{member.1}}</td>
+                    </tr>
+            {% endfor %}  
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <p><b>
+            {% if topScore.has_previous %} 
+            <a href="?page={{topScore.previous_page_number }}">Trang Trước</a>
+            {% endif %}
+            {% if topScore.has_previous and topScore.has_next %} 
+                - 
+            {% endif %}
+            {% if topScore.has_next %} 
+                <a href="?page={{topScore.next_page_number}}">Trang Tiếp Theo</a>
+            {% endif %}
+        </b></p>
+    </div>
+
+{% endblock %}

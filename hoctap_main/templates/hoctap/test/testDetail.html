@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Bài Kiểm Tra{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% block css-js %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+<style>
+    .content-img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+    {% if test.is_publish == False %}
+    <h3>Bài viết của bạn không được duyệt!</h3>
+    {% else %}
+        {% comment %}
+            {% if own_test == True %}
+                <a href="/hoctap/tests/{{test.test_id}}/change">Chỉnh sửa bài viết</a>
+            {% endif %}
+        {% endcomment %}
+        
+
+        <h3>Bài Viết: {{test.title|capfirst}}</h3>
+        <h5>Bởi: <a href="/profile/detail/{{test.author}}">{{test.author}}</a> - {{test.createdAt|date:"d/m/Y"}}</h5>
+        <p><a href="topscore">link xếp hạng</a></p>
+        <hr>
+            {{test.content|safe}}
+        <hr>
+        {% if is_finished == False %}
+        <h6>Nộp đáp án</h6>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% for question in test.correctAnswers %}
+                <label>Câu hỏi {{forloop.counter}}:</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="question{{forloop.counter}}" id="inlineRadio1" value="a" required>
+                    <label class="form-check-label" for="inlineRadio1">A</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="question{{forloop.counter}}" id="inlineRadio2" value="b" required>
+                    <label class="form-check-label" for="inlineRadio2">B</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="question{{forloop.counter}}" id="inlineRadio2" value="c" required>
+                    <label class="form-check-label" for="inlineRadio2">C</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="question{{forloop.counter}}" id="inlineRadio2" value="d" required>
+                    <label class="form-check-label" for="inlineRadio2">D</label>
+                </div>
+                <br>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Gửi</button>
+        </form>
+        {% else %}
+            <h6>Kết quả của bạn là {{correctCount}}/{{test.NumberOfQuestions}}</h6>
+            <ul>
+                {% for item in wrongAnswers %}
+                    <li>{{item|safe|linebreaks}}</li>
+            {% endfor %}
+            </ul>
+            <p><b>{{message}}</b></p>
+        {% endif %}
+
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base1.html" %}
+
+{% block title %}Viết Bài - Hỏi Đáp{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3>Bài Viết: <a href="/hoctap/posts/{{post.post_id}}" target="_blank">{{post.title|capfirst}}</a></h3>
+    
+    <div class="ml-3">
+        <h5>Hỏi bởi <a href="/profile/detail/{{hoidap.questioner}}" target="_blank">{{hoidap.questioner}}</a>: {{hoidap.question}}</h5>
+        <h5>Trả lời bởi <a href="/profile/detail/{{hoidap.answerer}}" target="_blank"">{{hoidap.answerer}}</a>: {{hoidap.answer}}</h5>
+    </div>
+        {% if hoidap.is_finished == False %} <h5>Trao đổi:</h5> {% endif %}
+        <div class="ml-2">
+            <form action="." method="post">
+                {% csrf_token %}
+                <div class="chat" style="overflow-y: auto; height:15em;">
+
+                {% for message in chat %}
+                <label for="{{message.id}}" style="height:0.5rem">[{{message.datetime|date:"H:i d/m/Y"}}] {{message.user}}: {{message.content}}</label>
+                {% if message.user|stringformat:"s" == user.username|stringformat:'s' %}
+                    <button class="btn btn-sm btn-danger" type="submit" name="message-delete" value="{{message.id}}" >xóa</button>
+                {% endif %}
+                <br>
+                {% empty %}
+                    {% if hoidap.is_finished == False and hoidap.is_open_chat == False %}
+                        <p>Chưa mở trao đổi</p>
+                        <p><b>Câu trả lời trên đã đáp ứng nhu cầu chưa?</b></p>
+                        <div class="ml-2">
+                            <form action="." method="post">
+                                {% csrf_token %}
+                                <label for="enable-chat"> Nếu chưa:</label>
+                                <button class="btn btn-sm btn-outline-secondary" type="submit" name="is-chat" value="enable-chat">Bấm Vào Đây!</button>
+                                <label for="enable-chat">để mở phần trao đổi.</label><br>
+                
+                                <label for="disable-chat"> Nếu rồi:</label>
+                                <button class="btn btn-sm btn-outline-success" type="submit" name="is-chat" value="disable-chat">Bấm Vào Đây!</button>
+                                <label for="disable-chat">để đóng hỏi đáp.</label>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </form>
+            </div>
+        </div>
+        {% if hoidap.is_open_chat == True and hoidap.is_finished == False %}
+            <div class="mt-3">
+                <form action="." method="post">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <button type="submit" class="btn btn-primary">Gủi Tin Nhắn</button>
+                </form>
+            </div>
+        {% endif %}
+
+        {% if hoidap.is_open_chat == True and hoidap.is_finished == False and hoidap.questioner == user.username %}
+        <form action="." method="post" class="mt-1">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-danger" name="close-qna" value="True">Đóng trao đổi</button>
+        </form>
+        {% endif %}
+
+    </div>
+{% endblock %}

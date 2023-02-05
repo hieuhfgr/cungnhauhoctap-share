@@ -1,0 +1,25 @@
+{% extends "base1.html" %}
+
+{% block title %}Trang Tin{% endblock %}
+{% block nav-hoctap-other-drop %}active{% endblock %}
+{% block nav-hoctap-news %}active{% endblock %}
+
+{% block content %}
+    <h3>Trang Tin</h3>
+    <table class="table table-hover table-sm">
+        <thead>
+            <tr>
+                <td style="width: 50%">Tiêu Đề</td>
+                <td style="width: 15%">Ngày Đăng</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for new in news %}  
+                <tr>
+                    <td><a href="/hoctap-others/new/{{new.id}}">{{new.title|capfirst}}</a></td>
+                    <td>{{new.date|date:'d/m/Y'}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

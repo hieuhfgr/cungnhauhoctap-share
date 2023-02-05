@@ -1,0 +1,55 @@
+{% extends "base1.html" %}
+
+{% block title %}Tạo Kiểm Tra{% endblock %}
+{% block nav-hoctap-test-create %}active{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3>Tạo bài kiểm tra</h3>
+    {% if is_success == True %} 
+        <h6>Bài kiểm tra của bạn đang chờ phê duyệt</h6>
+    {% else %}
+    {% if num_of_questions == '0' %} 
+        <h6>Nhập số lượng câu hỏi</h6>
+        <form action="" method="post">
+                {% csrf_token %}
+                <input class="form-control form-control-sm mb-1" type="text" name="num_of_questions" placeholder="Số câu hỏi">
+                <button type="submit" class="btn btn-sm btn-primary">Gửi</button>
+        </form>
+    {% else %} 
+        <form action="" method="post"> 
+            {% csrf_token %}
+            {{form|crispy}}
+
+            <h6 class="mt-3">Đáp Án Đúng</h6>
+            {% for id in idListQuestion %}
+            <label>Câu hỏi {{id}}:</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="question{{id}}" id="inlineRadio1" value="a" required>
+                <label class="form-check-label" for="inlineRadio1">A</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="question{{id}}" id="inlineRadio2" value="b" required>
+                <label class="form-check-label" for="inlineRadio2">B</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="question{{id}}" id="inlineRadio2" value="c" required>
+                <label class="form-check-label" for="inlineRadio2">C</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="question{{id}}" id="inlineRadio2" value="d" required>
+                <label class="form-check-label" for="inlineRadio2">D</label>
+              </div>
+              <br>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-success">Đăng</button>
+
+        </form>
+    {% endif %}
+    
+    {% endif %}
+    
+{% endblock %}

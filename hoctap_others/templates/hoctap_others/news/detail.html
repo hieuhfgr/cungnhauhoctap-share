@@ -1,0 +1,21 @@
+{% extends "base1.html" %}
+
+{% block title %}Trang Tin{% endblock %}
+{% block nav-hoctap-other-drop %}active{% endblock %}
+{% block nav-hoctap-news %}active{% endblock %}
+
+{% block css-js %}
+<style>
+    .content-img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h3>Tin: {{news.title}}</h3>
+    <h6>Đăng ngày: {{news.date|date:"d/m/Y"}}</h6>
+    <hr>
+    {{news.content|safe}}
+{% endblock %}

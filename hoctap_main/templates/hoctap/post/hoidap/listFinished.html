@@ -1,0 +1,30 @@
+{% extends "base1.html" %}
+
+{% block title %}Bài Viết - Hỏi Đáp{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% block css-js %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+    <h3>Bài Viết: {{post.title|capfirst}}</h3>
+    <h5>Bởi: <a href="/profile/detail/{{post.author}}">{{post.author}}</a> - {{post.createdAt|date:"d/m/Y"}}</h5>
+    <h5>Tất cả các lời giải đáp:</h5>
+    <div class="ml-2">
+        <ul style="list-style-type: none;">
+            {% for hoidap in hoidaps %} 
+            <li>
+                <h6>{{hoidap.question}}</h6>
+                <ul>
+                    <li>{{hoidap.answer}}</li>
+                </ul>
+            </li>
+            {% empty %}
+            <i><h6>Chưa có hỏi đáp.</h6></i>
+            {% endfor %}
+        </ul>
+    </div>
+    <a href="hoidap/send-question">Gửi hỏi đáp...</a>
+</div> 
+{% endblock %}

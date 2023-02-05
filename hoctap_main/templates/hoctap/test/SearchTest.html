@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Tìm Kiếm Bài Kiểm Tra{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+{% block nav-hoctap-test-search %}active{% endblock %}
+
+{% block content %}
+    <h3>Tìm kiếm</h3>
+    <div>
+        <form class="form mb-3" method="get">
+            <input name='title' class="form-control mr-sm-2 " type="search" placeholder="Tên kiểm tra" aria-label="Search" required> <br>
+            <input name='username' class="form-control mr-sm-2 " type="search" placeholder="Tên người dùng (không bắt buộc)" aria-label="Search">
+            <button class="btn btn-outline-success mt-3" type="submit">Tìm Kiếm</button>
+        </form>
+
+        {% if is_searching == True %} 
+            {% if isUserinDB == False and Userinclude != "" %}
+            <h6>Không tồn tài người dùng "<i>{{Userinclude}}</i>". Kết quả tìm kiếm là bài viết của tất cả mọi người!</h6>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% if is_searching == True %} 
+        <h3>Danh sách tìm thấy</h3>
+        <div style="overflow-y:auto; height:23em">
+        <table class="table table-sm table-bordered table-hover">
+            <thead>
+                <tr class="text-center">
+                    <td style="width:5%">#</td>
+                    <td style="width:65%">Tên Kiểm Tra</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in tests %} 
+                    <tr>
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td><a href="/hoctap/tests/{{test.test_id}}">{{ test.title|capfirst }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    {% endif %}
+
+{% endblock %}

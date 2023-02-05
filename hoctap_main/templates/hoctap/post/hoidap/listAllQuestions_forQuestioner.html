@@ -1,0 +1,38 @@
+{% extends "base1.html" %}
+
+{% block title %}Bài Viết - Hỏi Đáp{% endblock %}
+{% block nav-hoctap-drop %}active{% endblock %}
+
+{% block css-js %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+{% endblock %}
+
+{% block content %}
+    <h3>Bài Viết: {{post.title|capfirst}}</h3>
+    <h5>Bởi: <a href="/profile/detail/{{post.author}}">{{post.author}}</a> - {{post.createdAt|date:"d/m/Y"}}</h5>
+    <h5>Tất cả các lời giải đáp mà bạn đã gửi:</h5>
+    <div class="ml-2">
+        <ul style="list-style-type: none;">
+            {% for hoidap in hoidaps %} 
+                <li>
+                    <a href="/hoctap/posts/{{post.post_id}}/hoidap/{{hoidap.id}}/">{{hoidap.question}}</a>
+                    {% if hoidap.is_finished == True %}
+                    - Đã được giải đáp
+                    {% else %} 
+                    - Chưa được giải đáp
+                        {% if hoidap.is_open_chat == True %}
+                        - Đang mở trao đổi
+                        {% else %} 
+                        - Chưa mở trao đổi
+                        {% endif %}
+                    {% endif %}
+                    
+                </li>
+            {% empty %}
+                <i><h6>Bạn chưa có hỏi đáp.</h6></i>
+                <a href="/hoctap/posts/{{post.post_id}}/hoidap/send-question">Gửi hỏi đáp...</a>
+            {% endfor %}
+        </ul>
+    </div>
+</div> 
+{% endblock %}

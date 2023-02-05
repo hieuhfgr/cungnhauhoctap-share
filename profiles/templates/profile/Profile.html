@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Hồ Sơ{% endblock %}
+{% block nav-profile-drop %}active{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated and is_own_profile == True %} 
+        <a href="change">Chỉnh sửa hồ sơ</a>
+    {% endif %}
+        <h3 class="mb-3 mt-3">
+            Thông tin của {{User.name}}
+            {% if User.rank == 'A' %} 
+            <img src="/media/images/rank/gold.png" style="height: 1.5em; width: auto" alt="rank gold">
+            {% elif User.rank == 'B' %}
+            <img src="/media/images/rank/silver.png" style="height: 1.5em; width: auto" alt="rank silver">
+            {% elif User.rank == 'C' %} 
+            <img src="/media/images/rank/bronze.png" style="height: 1.5em; width: auto" alt="rank bronze">
+            {% endif %}
+        </h3>
+        
+        <h3>Thông tin cá nhân</h3>
+        <div>
+            <ul>
+                <li>Họ và Tên: <b>{{User.name}}</b>.</liHo>
+                <li>Tên tài khoản (username): <b>{{User.username}}</b>.</li>
+                <li>Vai trò: <b>{{User.get_role_display}}</b>.</li>
+                <li>
+                    Hạng: <b>{{User.get_rank_display}}</b>
+                    {% if User.rank == 'A' %} 
+                    <img src="/media/images/rank/gold.png" style="height: 1.5em; width: auto" alt="rank gold">
+                    {% elif User.rank == 'B' %}
+                    <img src="/media/images/rank/silver.png" style="height: 1.5em; width: auto" alt="rank silver">
+                    {% elif User.rank == 'C' %} 
+                    <img src="/media/images/rank/bronze.png" style="height: 1.5em; width: auto" alt="rank bronze">
+                    {% endif %}.
+                </li>
+                <li>Ngày tạo tài khoản: <b><i>{{User.createdAt|date:"d/m/Y"}}</i></b>.</li>
+                <li>Số bài viết đã đăng: <b>{{User.NumberOfPosts}}</b>.</li>
+            </ul>
+            <h5>Giới Thiệu:</h5>
+            <div class="ml-4">
+                {{User.about|linebreaks}}
+            </div>
+        </div>
+        {% if User.NumberOfPosts != 0 %}
+            <h3>Các bài viết đã đăng:</h3>
+            <div style="overflow-y:auto; max-height:20em">
+            <table class="table table-sm table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <td style="width: 85%">Bài Viết</td>
+                        <td style="width: 15%">Ngày Đăng</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                        {% if post.is_verify == True %}
+                            <tr>
+                                <td><a href="/hoctap/posts/{{post.post_id}}">{{post.title|capfirst}}</a></td>
+                                <td>{{post.createdAt|date:'d/m/Y'}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        {% endif %}
+
+        {% if is_has_tests %}
+            <h3>Các bài kiểm tra đã đăng:</h3>
+            <div style="overflow-y:auto; max-height:20em">
+            <table class="table table-sm table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <td style="width: 85%">Bài Viết</td>
+                        <td style="width: 15%">Ngày Đăng</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for test in tests %}
+                            <tr>
+                                <td><a href="/hoctap/tests/{{test.test_id}}">{{test.title|capfirst}}</a></td>
+                                <td>{{test.createdAt|date:'d/m/Y'}}</td>
+                            </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        {% endif %}
+
+{% endblock %}

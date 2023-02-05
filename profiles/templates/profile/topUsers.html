@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Thành Viên Tích Cực{% endblock %}
+{% block nav-profile-drop %}active{% endblock %}
+{% block nav-activemember %}active{% endblock %}
+
+{% block content %}
+    <table class="table table-sm table-hover">
+        <h6>Top Thành Viên</h6>
+        <thead>
+            <tr>
+                <td class="text-center" style="width: 5%">#</td>
+                <td style="width: 30%">Tên truy cập</td>
+                <td style="width: 55%">Họ và Tên</td>
+                <td class="text-center" style="width: 10%">Số bài viết</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in topUsers %}
+                    <tr>
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td>
+                            <a href="/profile/detail/{{member.username}}">{{member.username}}</a>
+                            {% if member.rank == 'A' %} 
+                            <img src="/media/images/rank/gold.png" style="height: 1.5em; width: auto" alt="rank gold">
+                            {% elif member.rank == 'B' %}
+                            <img src="/media/images/rank/silver.png" style="height: 1.5em; width: auto" alt="rank silver">
+                            {% elif member.rank == 'C' %} 
+                            <img src="/media/images/rank/bronze.png" style="height: 1.5em; width: auto" alt="rank bronze">
+                            {% endif %}
+                        </td>
+                        <td>{{member.name}}</a></td>
+                        <td class="text-center">{{member.NumberOfPosts}}</td>
+                    </tr>
+            {% endfor %}  
+        </tbody>
+    </table>
+    <div class="pagination">
+        <h6>
+            {% if topUsers.has_previous %} 
+            <a href="?page={{topUsers.previous_page_number }}">Trang Trước</a>
+            {% endif %}
+            {% if topUsers.has_previous and topUsers.has_next %} 
+                - 
+            {% endif %}
+            {% if topUsers.has_next %} 
+                <a href="?page={{topUsers.next_page_number}}">Trang Tiếp Theo</a>
+            {% endif %}
+        </h6>
+    </div>
+{% endblock %}

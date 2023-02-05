@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Trang Chủ{% endblock %}
+{% block nav-home %}active{% endblock %}
+{% load static %}
+
+{% block content %}
+    <!-- new posts  -->
+    <h4>Tài Liệu - Học Tập</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <td style="width: 65%">Bài Viết</td>
+                <td style="width: 20%">Bởi</td>
+                <td class="text-center" style="width: 15%">Ngày Đăng</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+                <tr>
+                    <td><a href="/hoctap/posts/{{post.post_id}}">{{ post.title|capfirst }}</a></td>
+                    <td><a href="/profile/detail/{{ post.author }}">{{ post.author }}</a></td>
+                    <td class="text-center">{{post.createdAt|date:"d/m/Y"}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h6 class="mb-3"><a href="/hoctap/posts">xem thêm...</a></h6>
+
+    <!-- new tests  -->
+    <h4>Tài Liệu - Kiểm Tra</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <td style="width: 65%">Bài Viết</td>
+                <td style="width: 20%">Bởi</td>
+                <td class="text-center" style="width: 15%">Ngày Đăng</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for test in tests %}
+                <tr>
+                    <td><a href="/hoctap/tests/{{test.test_id}}">{{ test.title|capfirst }}</a></td>
+                    <td><a href="/profile/detail/{{ test.author }}">{{ test.author }}</a></td>
+                    <td class="text-center">{{test.createdAt|date:"d/m/Y"}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h6 class="mb-3"><a href="/hoctap/test">xem thêm...</a></h6>
+{% endblock %}

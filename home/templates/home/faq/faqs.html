@@ -1,0 +1,29 @@
+{% extends "base1.html" %}
+
+{% block title %}Câu Hỏi Thường Gặp{% endblock %}
+{% block nav-about-drop %}active{% endblock %}
+{% block nav-faq %}active{% endblock %}
+
+{% block css-js %}
+<style>
+    .content-img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <h3>Một số câu hỏi thường gặp: </h3>
+        <ol>
+            {% for faq in faqs %}
+                <li>
+                    <h6>{{faq.title|capfirst}}</h6>
+                        <div class="ml-4">
+                            {{faq.content|safe}}
+                        </div>
+                </li>
+            {% endfor %}
+        </ol> 
+{% endblock %}

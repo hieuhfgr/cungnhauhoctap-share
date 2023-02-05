@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{announcement.title}}{% endblock %}
+{% block nav-about-drop %}active{% endblock %}
+{% block nav-announcement %}active{% endblock %}
+
+{% block css-js %}
+<style>
+    .content-img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <h3>{{announcement.title|capfirst}}</h3>
+    <p style="margin-bottom: 0;">Đăng bởi: {{announcement.author}}</p>
+    <p>Ngày đăng: {{announcement.date|date:"d/m/Y"}}</p>
+    <hr>
+    <div class="ml-4">
+        {{announcement.content|safe}}
+    </div>
+{% endblock %}

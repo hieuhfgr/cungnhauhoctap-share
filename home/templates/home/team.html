@@ -1,0 +1,37 @@
+{% extends "base1.html" %}
+
+{% block title %}Đội Ngũ{% endblock %}
+{% block nav-about-drop %}active{% endblock %}
+{% block nav-team %}active{% endblock %}
+{% block css-js %}
+<style>
+    .avatar {
+        border: 3px solid black;
+        border-radius: 100%;
+        max-width: 5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h3 class="mb-3">Đội ngũ</h3>
+    <ul class="list-unstyled">
+        <!-- <li class="media mb-3">
+            <img class="avatar mr-3" src="/media/images/default.png" alt="Nguyễn Minh Hiếu" >
+            <div class="media-body">
+                <h5 class="mt-0 mb-1"><a href="/profile/detail/hieuhfgr">hieuhfgr</a> - chủ sở hữu</h5>
+                <p>Người tạo ra trang web</p>
+            </div>
+        </li> -->
+        {% for adminUser in AdminUsers %}
+        <li class="media mt-3">            
+            <img class="avatar mr-3" src="/media/{{adminUser.avatar}}" alt="{{adminUser.name}}">
+
+            <div class="media-body mb-3">
+                <h5 class="mt-0 mb-1"><a href="/profile/detail/{{adminUser.username}}">{{adminUser.username}}</a> - {{adminUser.get_role_display}}</h5>
+                <p>{{adminUser.description}}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
